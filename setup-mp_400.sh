@@ -20,8 +20,8 @@ rosdep update
 
 cd ~
 
-mkdir -p mpo_700_workspace/src
-cd mpo_700_workspace/src
+mkdir -p mp_400_workspace/src
+cd mp_400_workspace/src
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_mp_400-2.git
