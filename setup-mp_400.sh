@@ -16,8 +16,6 @@ sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
 #Teleop-key
 sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
 
-rosdep update
-
 cd ~
 
 mkdir -p mp_400_workspace/src
