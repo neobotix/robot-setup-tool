@@ -16,6 +16,9 @@ sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
 #Teleop-key
 sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
 
+#Topic tools
+sudo apt-get install -y ros-$ROS_DISTRO-topic-tools
+
 cd ~
 
 mkdir -p mpo_700_workspace/src
