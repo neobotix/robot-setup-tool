@@ -3,6 +3,14 @@
 # exit if any command below fails
 set -e
 
+# Check if ROS is sourced
+
+if [ "$ROS_DISTRO" == "" ];
+then
+	echo "Installation cannot continue. No ROS sourced, please check if ROS is installed and sourced. Please try again after that!"
+	exit 0
+fi
+
 # Install navigation packages
 
 # Nav2
