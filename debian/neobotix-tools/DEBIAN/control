@@ -1,0 +1,15 @@
+Package: neobotix-tools
+Version: 1.0.2
+Maintainer: Paul Reiter <reiter@neobotix.de>
+Section: misc
+Priority: optional
+Architecture: all
+Depends: secure-delete, xfconf, xfce4-xkb-plugin, x2goserver, x2goserver-xsession, net-tools, cloud-guest-utils, mousepad, vim
+Description: neobotix-tools
+  This package configures operating system and installs useful tools and
+  dependencies needed for running middleware software on Neobotix robot
+  platforms.
+  .
+  Disclaimer:
+  This package is currently suited for Xubuntu 22.04 only. Use at your own
+  risk on other operating systems or Ubuntu flavours.

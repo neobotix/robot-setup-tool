@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -e
+
+# Get user who called sudo
+if [ $SUDO_USER ]; then user=$SUDO_USER; else user=`whoami`; fi
+
+# Add user to the dialout group
+usermod -aG dialout $user
+
+# Enable autologin
+if [ -e /etc/lightdm/lightdm.conf ]
+then
+  mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf.`date +"%Y-%m-%d_%T"`
+fi
+echo '[Seat:*]' > /etc/lightdm/lightdm.conf
+echo 'autologin-session=xubuntu' >> /etc/lightdm/lightdm.conf
+echo 'autologin-user='$user >> /etc/lightdm/lightdm.conf
+echo 'autologin-user-timeout=0' >> /etc/lightdm/lightdm.conf
+
+# Disable auto upgrades
+sed -i 's/APT::Periodic::Update-Package-Lists "1"/APT::Periodic::Update-Package-Lists "0"/' /etc/apt/apt.conf.d/20auto-upgrades
+
+# Setup cron job for configuring can interface
+#(crontab -l 2>/dev/null; echo "@reboot /opt/neobotix/tools/enable_can0.sh") | crontab -
+#grep '/opt/neobotix/tools/enable_can0.sh' /etc/crontab || echo '@reboot /opt/neobotix/tools/enable_can0.sh' >> /etc/crontab
+
+if ! crontab -l | grep -q '/opt/neobotix/tools/enable_can0.sh'; then (crontab -l 2>/dev/null; echo "@reboot /opt/neobotix/tools/enable_can0.sh") | crontab -; fi
+
+# Setup udev rules for serial converter
+echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="neo-relayboard"' > /etc/udev/rules.d/99-usb-serial.rules
+echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="01", SYMLINK+="neo-s300-1"' >> /etc/udev/rules.d/99-usb-serial.rules
+echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6001", SYMLINK+="neo-s300-2"' >> /etc/udev/rules.d/99-usb-serial.rules
+
+# Update GRUB
+cp /etc/default/grub /etc/default/grub_`date +"%Y-%m-%d_%T"`
+sed -i -e 's%GRUB_TIMEOUT=0%GRUB_TIMEOUT=3%g' /etc/default/grub
+sed -i -e 's%GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"%GRUB_CMDLINE_LINUX_DEFAULT=""%g' /etc/default/grub
+sed -i -e 's%#GRUB_TERMINAL=console%GRUB_TERMINAL=console%g' /etc/default/grub
+update-grub
+
+#su -c /opt/neobotix/tools/xfce_tweaks.sh $user
+#sudo -u $user /opt/neobotix/tools/xfce_tweaks.sh
+mkdir -p /home/$user/.config/autostart
+echo '[Desktop Entry]' > /home/$user/.config/autostart/xfce_tweaks.desktop
+echo 'Type=Application' >> /home/$user/.config/autostart/xfce_tweaks.desktop
+echo 'Name=xfce_tweaks' >> /home/$user/.config/autostart/xfce_tweaks.desktop
+echo 'Exec=/opt/neobotix/tools/xfce_tweaks.sh' >> /home/$user/.config/autostart/xfce_tweaks.desktop
+chown -R $user:$user /home/$user/.config/autostart
+
+# Request reboot
+echo '********************************************************'
+echo ''
+echo 'Done. Please reboot your computer to finish the process.'
+echo ''
+echo '********************************************************'
+
+exit 0
