@@ -1,4 +1,4 @@
-# robot-setup-tool
+# package-setup
 Contains the bash scripts that helps in creating the ros-workspace and installing all the necessary package for your specific neobotix robots.
 
 If you have an mp_400, then you just need to run:
