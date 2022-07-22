@@ -11,7 +11,8 @@ then
 	exit 0
 fi
 
-# Install navigation packages
+# Install build tool
+sudo apt install python3-colcon-common-extensions
 
 # Nav2
 sudo apt install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-*
@@ -31,7 +32,7 @@ cd mp_400_workspace/src
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_mp_400-2.git
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
+git clone --branch main            https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2

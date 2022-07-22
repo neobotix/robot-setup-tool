@@ -11,6 +11,9 @@ then
 	exit 0
 fi
 
+# Install build tool
+sudo apt install python3-colcon-common-extensions
+
 # Install Gazebo packages
 
 sudo apt-get install ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-gazebo-plugins ros-$ROS_DISTRO-gazebo-ros-pkgs
@@ -39,7 +42,7 @@ cd neobotix_workspace/src
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_simulation2.git
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
+git clone --branch main            https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
