@@ -54,7 +54,7 @@ colcon build --symlink-install
 
 echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
 
-echo "source mpo_700_workspace/install/setup.bash" >> ~/.bashrc
+echo "source ~/mpo_700_workspace/install/setup.bash" >> ~/.bashrc
 
 echo "Installation successful !!!"
 
