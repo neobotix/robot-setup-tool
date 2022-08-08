@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=startROS
+Comment=
+Exec=xfce4-terminal -H -e '/bin/bash -c "~/ROS_AUTOSTART.sh"'
+Icon=
+Path=
+Terminal=true
+StartupNotify=true

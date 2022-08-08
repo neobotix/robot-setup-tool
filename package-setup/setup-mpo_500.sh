@@ -3,6 +3,13 @@
 # exit if any command below fails
 set -e
 
+# create folders
+mkdir -p ~/.config/autostart/
+
+# copy files
+cp ../generic/ROS-Neobotix-Autostart.desktop ~/.config/autostart/
+cp ../generic/startROS.desktop ~/Desktop/
+
 # Check if ROS is sourced
 
 if [ "$ROS_DISTRO" == "" ];
@@ -53,6 +60,18 @@ colcon build --symlink-install
 echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
 
 echo "source ~/mpo_500_workspace/install/setup.bash" >> ~/.bashrc
+
+echo "Setting up startup scripts"
+
+echo "source ~/mpo_500_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
+
+echo "sleep 2" >> ROS_AUTOSTART.sh
+
+echo "ros2 launch neo_mpo_500-2 bringup.launch.py" >> ROS_AUTOSTART.sh
+
+chmod +x ROS_AUTOSTART.sh
+
+mv ROS_AUTOSTART.sh ~/
 
 echo "Installation successful !!!"
 
