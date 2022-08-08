@@ -51,6 +51,18 @@ echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
 
 echo "source ~/mp_500_workspace/install/setup.bash" >> ~/.bashrc
 
+echo "Setting up startup scripts"
+
+echo "source ~/mp_500_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
+
+echo "sleep 2" >> ROS_AUTOSTART.sh
+
+echo "ros2 launch neo_mp_500-2 bringup.launch.py" >> ROS_AUTOSTART.sh
+
+chmod +x ROS_AUTOSTART.sh
+
+mv ROS_AUTOSTART.sh ~/
+
 echo "Installation successful !!!"
 
 exit 0
