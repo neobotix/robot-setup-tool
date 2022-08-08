@@ -3,6 +3,13 @@
 # exit if any command below fails
 set -e
 
+# create folders
+mkdir -p ~/.config/autostart/
+
+# copy files
+cp ../generic/ROS-Neobotix-Autostart.desktop ~/.config/autostart/
+cp ../generic/startROS.desktop ~/Desktop/
+
 # Check if ROS is sourced
 
 if [ "$ROS_DISTRO" == "" ];
