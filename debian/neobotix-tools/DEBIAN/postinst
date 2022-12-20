@@ -19,7 +19,8 @@ echo 'autologin-user='$user >> /etc/lightdm/lightdm.conf
 echo 'autologin-user-timeout=0' >> /etc/lightdm/lightdm.conf
 
 # Halt without pwd
-echo "$user ALL=NOPASSWD: /sbin/halt,/sbin/reboot" | EDITOR='tee -a' visudo
+echo "$user ALL=NOPASSWD: /sbin/halt,/sbin/reboot" > /etc/sudoers.d/neobotix
+visudo -c -f /etc/sudoers.d/neobotix
 
 # Disable auto upgrades
 sed -i 's/APT::Periodic::Update-Package-Lists "1"/APT::Periodic::Update-Package-Lists "0"/' /etc/apt/apt.conf.d/20auto-upgrades
