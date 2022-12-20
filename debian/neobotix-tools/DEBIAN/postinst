@@ -43,6 +43,13 @@ sed -i -e 's%GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"%GRUB_CMDLINE_LINUX_DEFAUL
 sed -i -e 's%#GRUB_TERMINAL=console%GRUB_TERMINAL=console%g' /etc/default/grub
 update-grub
 
+# Add vino to autostart
+mkdir -p /home/$user/.config/autostart
+echo '[Desktop Entry]' > /home/$user/.config/autostart/vino.desktop
+echo 'Type=Application' >> /home/$user/.config/autostart/vino.desktop
+echo 'Name=Vino Server' >> /home/$user/.config/autostart/vino.desktop
+echo 'Exec=systemctl --user start vino-server' >> /home/$user/.config/autostart/vino.desktop
+
 #su -c /opt/neobotix/tools/xfce_tweaks.sh $user
 #sudo -u $user /opt/neobotix/tools/xfce_tweaks.sh
 mkdir -p /home/$user/.config/autostart
