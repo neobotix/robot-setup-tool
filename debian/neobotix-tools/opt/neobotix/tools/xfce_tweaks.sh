@@ -6,7 +6,7 @@ if [ $SUDO_USER ]; then user=$SUDO_USER; else user=`whoami`; fi
 xfconf-query -c xfwm4 -p /general/use_compositing -t bool -s false
 
 # Add keyboard language switcher to panel
-#xfce4-panel --add=xkb
+xfce4-panel --add=xkb
 
 # Disable lockscreen
 xset s 0 0
