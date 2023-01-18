@@ -43,6 +43,16 @@ sed -i -e 's%GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"%GRUB_CMDLINE_LINUX_DEFAUL
 sed -i -e 's%#GRUB_TERMINAL=console%GRUB_TERMINAL=console%g' /etc/default/grub
 update-grub
 
+# Configure vino
+stty_orig=$(stty -g)
+stty -echo
+IFS= read -p "Please enter VNC password: " -r passwd
+stty "$stty_orig"
+gsettings set org.gnome.Vino require-encryption false
+gsettings set org.gnome.Vino prompt-enabled false
+gsettings set org.gnome.Vino authentication-methods "['vnc']"
+gsettings set org.gnome.Vino vnc-password $(echo -n "$passwd"|base64)
+
 # Add vino to autostart
 mkdir -p /home/$user/.config/autostart
 echo '[Desktop Entry]' > /home/$user/.config/autostart/vino.desktop
