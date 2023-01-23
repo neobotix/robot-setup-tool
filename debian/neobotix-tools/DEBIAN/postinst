@@ -35,6 +35,7 @@ if ! crontab -l | grep -q '/opt/neobotix/tools/enable_can0.sh'; then (crontab -l
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="neo-relayboard"' > /etc/udev/rules.d/99-usb-serial.rules
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="01", SYMLINK+="neo-s300-1"' >> /etc/udev/rules.d/99-usb-serial.rules
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6001", SYMLINK+="neo-s300-2"' >> /etc/udev/rules.d/99-usb-serial.rules
+echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6015", SYMLINK+="neo-s300-2"' >> /etc/udev/rules.d/99-usb-serial.rules
 
 # Update GRUB
 cp /etc/default/grub /etc/default/grub_`date +"%Y-%m-%d_%T"`
