@@ -49,6 +49,7 @@ stty_orig=$(stty -g)
 stty -echo
 IFS= read -p "Please enter VNC password: " -r passwd
 stty "$stty_orig"
+echo ''
 gsettings set org.gnome.Vino require-encryption false
 gsettings set org.gnome.Vino prompt-enabled false
 gsettings set org.gnome.Vino authentication-methods "['vnc']"
