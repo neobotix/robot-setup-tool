@@ -11,6 +11,12 @@ xfce4-panel --add=xkb
 # Disable display power management
 xset s 0 0
 xset s off -dpms 
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/blank-on-ac -s 0
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/dpms-on-ac-off -s 0
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/dpms-on-ac-sleep -s 0
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/blank-on-battery -s 0
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/dpms-on-battery-off -s 0
+xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/dpms-on-battery-sleep -s 0
 xfconf-query -c xfce4-power-manager -p /xfce4-power-manager/dpms-enabled -s false
 
 # Disable screensaver and lockscreen
