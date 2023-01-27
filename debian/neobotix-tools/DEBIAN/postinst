@@ -50,10 +50,10 @@ stty -echo
 IFS= read -p "Please enter VNC password: " -r passwd
 stty "$stty_orig"
 echo ''
-gsettings set org.gnome.Vino require-encryption false
-gsettings set org.gnome.Vino prompt-enabled false
-gsettings set org.gnome.Vino authentication-methods "['vnc']"
-gsettings set org.gnome.Vino vnc-password $(echo -n "$passwd"|base64)
+sudo -Hu $user gsettings set org.gnome.Vino require-encryption false
+sudo -Hu $user gsettings set org.gnome.Vino prompt-enabled false
+sudo -Hu $user gsettings set org.gnome.Vino authentication-methods "['vnc']"
+sudo -Hu $user gsettings set org.gnome.Vino vnc-password $(echo -n "$passwd"|base64)
 
 # Add vino to autostart
 mkdir -p /home/$user/.config/autostart
