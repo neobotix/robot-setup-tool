@@ -37,6 +37,9 @@ sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
 #Topic tools
 sudo apt-get install -y ros-$ROS_DISTRO-topic-tools
 
+#ROS2 Phidget tool
+sudo apt-get install -y ros-$ROS_DISTRO-phidgets-spatial
+
 cd ~
 
 mkdir -p mpo_700_workspace/src
