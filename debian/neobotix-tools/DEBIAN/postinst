@@ -19,7 +19,8 @@ echo 'autologin-user='$user >> /etc/lightdm/lightdm.conf
 echo 'autologin-user-timeout=0' >> /etc/lightdm/lightdm.conf
 
 # Halt without pwd
-echo '%sudo ALL=NOPASSWD: /sbin/halt,/sbin/reboot' | EDITOR='tee -a' visudo
+echo "$user ALL=NOPASSWD: /sbin/halt,/sbin/reboot,/sbin/poweroff,/sbin/shutdown" > /etc/sudoers.d/neobotix
+visudo -c -f /etc/sudoers.d/neobotix
 
 # Disable auto upgrades
 sed -i 's/APT::Periodic::Update-Package-Lists "1"/APT::Periodic::Update-Package-Lists "0"/' /etc/apt/apt.conf.d/20auto-upgrades
@@ -29,11 +30,13 @@ sed -i 's/APT::Periodic::Update-Package-Lists "1"/APT::Periodic::Update-Package-
 #grep '/opt/neobotix/tools/enable_can0.sh' /etc/crontab || echo '@reboot /opt/neobotix/tools/enable_can0.sh' >> /etc/crontab
 
 if ! crontab -l | grep -q '/opt/neobotix/tools/enable_can0.sh'; then (crontab -l 2>/dev/null; echo "@reboot /opt/neobotix/tools/enable_can0.sh") | crontab -; fi
+if ! crontab -l | grep -q '/opt/neobotix/tools/enable_multicast_lo.sh'; then (crontab -l 2>/dev/null; echo "@reboot /opt/neobotix/tools/enable_multicast_lo.sh") | crontab -; fi
 
 # Setup udev rules for serial converter
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="neo-relayboard"' > /etc/udev/rules.d/99-usb-serial.rules
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="01", SYMLINK+="neo-s300-1"' >> /etc/udev/rules.d/99-usb-serial.rules
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6001", SYMLINK+="neo-s300-2"' >> /etc/udev/rules.d/99-usb-serial.rules
+echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6015", SYMLINK+="neo-s300-2"' >> /etc/udev/rules.d/99-usb-serial.rules
 
 # Update GRUB
 cp /etc/default/grub /etc/default/grub_`date +"%Y-%m-%d_%T"`
@@ -41,6 +44,24 @@ sed -i -e 's%GRUB_TIMEOUT=0%GRUB_TIMEOUT=3%g' /etc/default/grub
 sed -i -e 's%GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"%GRUB_CMDLINE_LINUX_DEFAULT=""%g' /etc/default/grub
 sed -i -e 's%#GRUB_TERMINAL=console%GRUB_TERMINAL=console%g' /etc/default/grub
 update-grub
+
+# Configure vino
+stty_orig=$(stty -g)
+stty -echo
+IFS= read -p "Please enter VNC password: " -r passwd
+stty "$stty_orig"
+echo ''
+sudo -Hu $user gsettings set org.gnome.Vino require-encryption false
+sudo -Hu $user gsettings set org.gnome.Vino prompt-enabled false
+sudo -Hu $user gsettings set org.gnome.Vino authentication-methods "['vnc']"
+sudo -Hu $user gsettings set org.gnome.Vino vnc-password $(echo -n "$passwd"|base64)
+
+# Add vino to autostart
+mkdir -p /home/$user/.config/autostart
+echo '[Desktop Entry]' > /home/$user/.config/autostart/vino.desktop
+echo 'Type=Application' >> /home/$user/.config/autostart/vino.desktop
+echo 'Name=Vino Server' >> /home/$user/.config/autostart/vino.desktop
+echo 'Exec=systemctl --user start vino-server' >> /home/$user/.config/autostart/vino.desktop
 
 #su -c /opt/neobotix/tools/xfce_tweaks.sh $user
 #sudo -u $user /opt/neobotix/tools/xfce_tweaks.sh
