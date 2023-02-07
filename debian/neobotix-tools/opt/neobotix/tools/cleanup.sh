@@ -26,6 +26,7 @@ rm -rf /var/log/*
 mkdir /var/log/journal
 
 # clear bash history
-history -c
+>/home/$user/.bash_history
+sudo -u$user bash -c "unset HISTFILE; history -c && history -w;"
 
 exit 0
