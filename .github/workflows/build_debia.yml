@@ -30,4 +30,4 @@ jobs:
         uses: dawidd6/action-debian-package@v1.4.4
         with:
         # Optional, relative to workspace directory
-          source_directory: ../
+          source_directory: ../neobotix-tools/DEBIAN
