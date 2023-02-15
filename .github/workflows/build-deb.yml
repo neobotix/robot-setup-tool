@@ -15,14 +15,17 @@ jobs:
     runs-on: ubuntu-22.04
   
     steps:
-      - name: Checkout
+      - name: 'Checkout'
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: 'Install Dependencies'
         run: sudo apt install -y dpkg-dev
 
-      - name: Build debian package
+      - name: 'Build Debian Package'
         run: cd debian && ./make_deb.sh
           
-
-#      - name: Upload artifacts
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: neobotix-tools.deb
+          path: debian/neobotix-tools.deb
