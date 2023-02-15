@@ -21,7 +21,8 @@ jobs:
       - name: Install dependencies
         run: sudo apt install -y dpkg-dev
 
-#      - name: Build debian package
+      - name: Build debian package
+        run: cd debian && ./make_deb.sh
           
 
 #      - name: Upload artifacts
