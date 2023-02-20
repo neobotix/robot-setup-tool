@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - ros2
-    tags:
-      - v.*
+#     tags:
+#       - v.*
   pull_request:
     branches:
       - ros2
-    tags:
-      - v.*
+#     tags:
+#       - v.*
+  schedule: #trigger for every friday at 5:30 UTC
+    - cron: '30 5 * * 5'
 
 jobs:
   build:
