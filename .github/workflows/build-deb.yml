@@ -1,0 +1,35 @@
+name: Build debian package
+
+on:
+  push:
+    branches:
+      - ros2
+#     tags:
+#       - v.*
+  pull_request:
+    branches:
+      - ros2
+#     tags:
+#       - v.*
+  schedule: #trigger for every friday at 5:30 UTC
+    - cron: '30 5 * * 5'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+  
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+
+      - name: 'Install Dependencies'
+        run: sudo apt install -y dpkg-dev
+
+      - name: 'Build Debian Package'
+        run: cd debian && ./make_deb.sh
+          
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: neobotix-tools.deb
+          path: debian/neobotix-tools.deb
