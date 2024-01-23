@@ -72,11 +72,15 @@ echo 'Name=xfce_tweaks' >> /home/$user/.config/autostart/xfce_tweaks.desktop
 echo 'Exec=/opt/neobotix/tools/xfce_tweaks.sh' >> /home/$user/.config/autostart/xfce_tweaks.desktop
 chown -R $user:$user /home/$user/.config/autostart
 
-# Request reboot
-echo '********************************************************'
-echo ''
-echo 'Done. Please reboot your computer to finish the process.'
-echo ''
-echo '********************************************************'
+# Display 'Reboot Requiered' notification
+if [ -d /var/lib/update-notifier/user.d/ ]; then
+   rm -rf /var/lib/update-notifier/user.d/neobotix-tools
+   cat << EOF >> /var/lib/update-notifier/user.d/neobotix-tools
+Name: neobotix-tools Post Install Notification 
+Priority: High
+Description: Reboot is required to complete the installation. 
+EOF
+   touch /var/lib/update-notifier/dpkg-run-stamp
+fi
 
 exit 0
