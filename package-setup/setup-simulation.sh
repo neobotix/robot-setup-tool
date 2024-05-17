@@ -35,6 +35,9 @@ sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
 #Teleop-key
 sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
 
+#Xacro
+sudo apt-get install -y ros-$ROS_DISTRO-xacro
+
 cd ~
 
 mkdir -p neobotix_workspace/src
