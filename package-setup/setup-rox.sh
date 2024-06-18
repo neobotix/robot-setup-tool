@@ -55,13 +55,20 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
 git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_kinematics_omnidrive2.git
+git clone --branch main            https://github.com/neobotix/rox_argo_kinematics.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
 
+cd neo_relayboard_v3
+#submodule init
+git submodule update --init
+
+# install vnx base
+sudo dpkg -i vnx-base/x86_64/vnx-base-1.9.6-x86_64-ubuntu-22.04.deb
+
 # build workspace
-cd ..
+cd ../..
 colcon build --symlink-install 
 
 echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
@@ -74,7 +81,7 @@ echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch rox_bringup bringup.launch.py" >> ROS_AUTOSTART.sh
+echo "ros2 launch rox_bringup bringup_launch.py" >> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
