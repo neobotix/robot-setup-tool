@@ -32,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: neobotix-tools-ubuntu2404.deb
-          path: debian/neobotix-tools.deb
+          path: debian/neobotix-tools-ubuntu2404.deb
