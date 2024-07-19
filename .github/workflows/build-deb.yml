@@ -3,12 +3,12 @@ name: Build debian package
 on:
   push:
     branches:
-      - ros2
+      - ros2-Ubuntu2404
 #     tags:
 #       - v.*
   pull_request:
     branches:
-      - ros2
+      - ros2-Ubuntu2404
 #     tags:
 #       - v.*
   schedule: #trigger for every friday at 5:30 UTC
@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
   
     steps:
       - name: 'Checkout'
