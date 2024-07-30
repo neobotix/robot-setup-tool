@@ -3,6 +3,13 @@
 # exit if any command below fails
 set -e
 
+# Check if there are ROS packages existing
+if [ "$ROS_DISTRO" == "" ];
+then
+	echo "Installation cannot continue. No ROS sourced, please check if ROS is installed and sourced. Please try again after that!"
+	exit 0
+fi
+
 # create folders
 mkdir -p ~/.config/autostart/
 
@@ -11,12 +18,22 @@ cp ../generic/ROS-Neobotix-Autostart.desktop ~/.config/autostart/
 cp ../generic/startROS.desktop ~/Desktop/
 
 # Check if ROS is sourced
+kinematics="$1"
 
-if [ "$ROS_DISTRO" == "" ];
-then
-	echo "Installation cannot continue. No ROS sourced, please check if ROS is installed and sourced. Please try again after that!"
-	exit 0
+if [ -z "$kinematics" ]; then
+    echo "Please select a ROX type to go further with installation"
+    echo "Options: argo/diff/trike:" 
+    read options
+
+    # Check if the input option is "argo"
+    if [ "$options" != "argo" ] && [ "$options" != "diff" ] && [ "$options" != "trike" ]; then
+        echo "Invalid input! Restart the script"
+        exit 0
+    fi
+	kinematics=$options
 fi
+
+echo $kinematics "kinematics is selected - continuing the installation"
 
 # Install build tool
 sudo apt install python3-colcon-common-extensions
@@ -53,12 +70,21 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
-git clone --branch master          https://github.com/neobotix/neo_common2
 git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
-git clone --branch main            https://github.com/neobotix/rox_argo_kinematics.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
+
+# ROX Argo specific packages
+
+if [ "$kinematics" == "argo" ]; then
+	git clone --branch main            https://github.com/neobotix/rox_argo_kinematics.git
+	git clone --branch master          https://github.com/neobotix/neo_common2
+fi
+
+if [ "$kinematics" == "diff" ] || [ "$kinematics" == "trike" ]; then
+	git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_kinematics_differential2.git
+fi
 
 cd neo_relayboard_v3
 #submodule init
