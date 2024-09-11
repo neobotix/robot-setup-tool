@@ -18,31 +18,34 @@ then
 	exit 0
 fi
 
+echo "Welcome to the setup of your ROX robot, please select the dependencies that are required for your robot"
+
+echo "Universal robots ? (y/n)"
+
+read uni_ans
+
+skip_depend="ros_gz "
+
+if [ "$uni_ans"="n" ]; then
+	skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
+fi
+
+echo "Phidget IMU ? (y/n)"
+
+read phi_ans
+
+if [ "$phi_ans"="n" ]; then
+	skip_depend+="phidgets-drivers"
+fi
+
 # Install build tool
 sudo apt install python3-colcon-common-extensions
 
-# Install navigation packages
+#Install xterm
 
-# Nav2
-sudo apt install -y ros-$ROS_DISTRO-navigation2 ros-$ROS_DISTRO-nav2-*
+sudo apt install xterm
 
-sudo apt install -y ros-$ROS_DISTRO-slam-toolbox
-
-#Teleop-joy
-sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-joy
-
-#Teleop-key
-sudo apt-get install -y ros-$ROS_DISTRO-teleop-twist-keyboard
-
-#Topic tools
-sudo apt-get install -y ros-$ROS_DISTRO-topic-tools
-
-#Xacro
-sudo apt-get install -y ros-$ROS_DISTRO-xacro
-
-#LaserScanner
-sudo apt-get install ros-$ROS_DISTRO-sick-safetyscanners2
-
+# Go to home directory
 cd ~
 
 mkdir -p ros2_workspace/src
@@ -67,8 +70,13 @@ git submodule update --init
 # install vnx base
 sudo dpkg -i vnx-base/x86_64/vnx-base-1.9.6-x86_64-ubuntu-22.04.deb
 
+cd ~/ros2_workspace
+
+echo "Installing dependencies, skipping the following" $skip_depend
+# Install relevant dependencies
+rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r --skip-keys "$skip_depend"
+
 # build workspace
-cd ../..
 colcon build --symlink-install 
 
 echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
