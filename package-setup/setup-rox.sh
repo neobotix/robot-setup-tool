@@ -20,23 +20,55 @@ fi
 
 echo "Welcome to the setup of your ROX robot, please select the dependencies that are required for your robot"
 
-echo "Universal robots ? (y/n)"
-
-read uni_ans
-
+uni_ans=""
+phi_ans=""
 skip_depend="ros_gz "
 
-if [ "$uni_ans"="n" ]; then
-	skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
-fi
+while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
+	echo "Universal robots ? (y/n)"
 
-echo "Phidget IMU ? (y/n)"
+	read uni_ans
 
-read phi_ans
+	if [ "$uni_ans" == "n" ]; then
+		skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
+	elif [ "$uni_ans" == "y" ]; then
+		echo "Universal robots dependencies will be installed"
+	else
+		echo "Wrong option - Please try again"
+	fi
 
-if [ "$phi_ans"="n" ]; then
-	skip_depend+="phidgets-drivers"
-fi
+done
+
+while [[ "$phi_ans" != "y" && "$phi_ans" != "n" ]]; do
+	echo "Phidget IMU ? (y/n)"
+
+	read phi_ans
+
+	if [ "$phi_ans" == "n" ]; then
+		skip_depend+="phidgets-drivers"
+	elif [ "$phi_ans" == "y" ]; then
+		echo "Phidget IMU dependencies will be installed"
+	else
+		echo "Wrong option - Please try again"
+	fi
+
+done
+
+while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
+
+	echo "Choose your kinematics (argo/diff)"
+
+	read kinematics
+
+	if [ "$kinematics" == "argo" ]; then
+		echo "rox_argo_kinematics package will be cloned"
+	elif [ "$kinematics" == "diff" ]; then
+		echo "rox_diff_kinematics package will be cloned"
+	else
+		echo "Wrong option - Please try again"
+	fi
+
+done
 
 # Install build tool
 sudo apt install python3-colcon-common-extensions
@@ -58,10 +90,16 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
 git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
-git clone --branch main            https://github.com/neobotix/rox_argo_kinematics.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
+
+if [ "$kinematics"="argo" ]; then
+	git clone --branch main https://github.com/neobotix/rox_argo_kinematics.git
+elif [ "$kinematics" == "diff" ]; then
+	git clone --branch main https://github.com/neobotix/rox_diff_kinematics.git
+fi
+
 
 cd neo_relayboard_v3
 #submodule init
