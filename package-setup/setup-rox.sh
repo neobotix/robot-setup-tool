@@ -97,7 +97,7 @@ git clone --branch master          https://github.com/neobotix/neo_srvs2
 if [ "$kinematics"="argo" ]; then
 	git clone --branch main https://github.com/neobotix/rox_argo_kinematics.git
 elif [ "$kinematics" == "diff" ]; then
-	git clone --branch main https://github.com/neobotix/rox_diff_kinematics.git
+	git clone --branch $ROS_DISTRO git@github.com:neobotix/neo_kinematics_differential2.git
 fi
 
 
