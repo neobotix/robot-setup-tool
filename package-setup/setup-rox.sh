@@ -115,7 +115,7 @@ cd ~/ros2_workspace
 
 echo "Installing dependencies, skipping the following" $skip_depend
 # Install relevant dependencies
-rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r --skip-keys "$skip_depend"
+rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r -y --skip-keys "$skip_depend"
 
 # build workspace
 colcon build --symlink-install 
