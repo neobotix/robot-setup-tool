@@ -130,7 +130,7 @@ echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch rox_bringup bringup_launch.py" >> ROS_AUTOSTART.sh
+echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics >> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
