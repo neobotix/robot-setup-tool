@@ -63,14 +63,14 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 	if [ "$kinematics" == "argo" ]; then
 		echo "rox_argo_kinematics package will be cloned"
 	elif [ "$kinematics" == "diff" ]; then
-		echo "rox_diff_kinematics package will be cloned"
+		echo "neo_kinematics_differential2 package will be cloned"
 	else
 		echo "Wrong option - Please try again"
 	fi
 
 done
 
-sudo rosdep init
+#rosdep update might need rosdep init -- ToDo: See if it could be checked
 rosdep update
 
 # Install build tool
