@@ -70,6 +70,9 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 
 done
 
+sudo rosdep init
+rosdep update
+
 # Install build tool
 sudo apt install python3-colcon-common-extensions
 
