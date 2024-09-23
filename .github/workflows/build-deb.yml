@@ -3,12 +3,12 @@ name: Build debian package
 on:
   push:
     branches:
-      - ros2-Ubuntu2404
+      - noble
 #     tags:
 #       - v.*
   pull_request:
     branches:
-      - ros2-Ubuntu2404
+      - noble
 #     tags:
 #       - v.*
   schedule: #trigger for every friday at 5:30 UTC
