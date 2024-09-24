@@ -127,6 +127,9 @@ elif [ "$kinematics" == "diff" ]; then
 	git clone --branch main https://github.com/neobotix/rox_diff_kinematics.git
 fi
 
+if [ "$uni_ans" == "y" ]; then
+	git clone --branch main https://github.com/neobotix/neo_rox_moveit2.git
+
 cd neo_relayboard_v3
 #submodule init
 git submodule update --init

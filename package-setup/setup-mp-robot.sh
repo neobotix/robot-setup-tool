@@ -131,6 +131,9 @@ elif [ "$robot_model" == "mpo_700" ]; then
 	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_omnidrive2.git
 fi
 
+if [ "$uni_ans" == "y" ]; then
+	git clone --branch main https://github.com/neobotix/neo_mpo_moveit2.git
+
 # build workspace
 cd ..
 
