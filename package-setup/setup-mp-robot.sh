@@ -31,7 +31,7 @@ use_d435="False"
 while [[ "$robot_model" != "mp_400" && "$robot_model" != "mp_500" && "$robot_model" != "mpo_500" && "$robot_model" != "mpo_700" ]]; do
 	echo "Choose your robot (mp_400/mp_500/mpo_500/mpo_700)"
 	read robot_model
-	if [ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]; then
+	if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
 		echo "neo_kinematics_differential2 package will be cloned"
 	elif [ "$robot_model" == "mpo_500" ]; then
 		echo "neo_kinematics_mecanum2 package will be cloned"
@@ -42,7 +42,7 @@ while [[ "$robot_model" != "mp_400" && "$robot_model" != "mp_500" && "$robot_mod
 	fi
 done
 
-if [ "$robot_model" == "mpo_500" || "$robot_model" == "mpo_700" ]; then
+if [[ "$robot_model" == "mpo_500" || "$robot_model" == "mpo_700" ]]; then
 	while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
 		echo "Universal robots ? (y/n)"
 		read uni_ans
@@ -123,7 +123,7 @@ if [ "$ROS_DISTRO" == "Iron" ]; then
 	git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 fi
 
-if [ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]; then
+if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
 	git clone --branch main https://github.com/neobotix/neo_kinematics_differential2.git
 elif [ "$robot_model" == "mpo_500" ]; then
 	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_mecanum2.git
@@ -133,6 +133,7 @@ fi
 
 if [ "$uni_ans" == "y" ]; then
 	git clone --branch main https://github.com/neobotix/neo_mpo_moveit2.git
+fi
 
 # build workspace
 cd ..

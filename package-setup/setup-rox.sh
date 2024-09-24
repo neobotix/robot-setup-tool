@@ -129,6 +129,7 @@ fi
 
 if [ "$uni_ans" == "y" ]; then
 	git clone --branch main https://github.com/neobotix/neo_rox_moveit2.git
+fi
 
 cd neo_relayboard_v3
 #submodule init
