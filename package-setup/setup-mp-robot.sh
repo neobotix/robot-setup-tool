@@ -24,7 +24,7 @@ uni_ans=""
 phi_ans=""
 realsense_ans=""
 skip_depend=""
-arm_type=""
+arm_type=" "
 use_imu="False"
 use_d435="False"
 
