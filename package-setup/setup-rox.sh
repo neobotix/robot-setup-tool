@@ -112,7 +112,6 @@ cd ros2_workspace/src
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
@@ -120,6 +119,10 @@ git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
+
+if [ "$ROS_DISTRO" == "iron" ]; then
+	git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
+fi
 
 if [ "$kinematics" == "argo" ]; then
 	git clone --branch main https://github.com/neobotix/rox_argo_kinematics.git

@@ -119,7 +119,7 @@ git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
 git clone https://github.com/neobotix/joystick_drivers.git
 
-if [ "$ROS_DISTRO" == "Iron" ]; then
+if [ "$ROS_DISTRO" == "iron" ]; then
 	git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 fi
 
