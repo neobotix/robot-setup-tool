@@ -138,6 +138,10 @@ fi
 # build workspace
 cd ..
 
+echo "Installing dependencies, skipping the following" $skip_depend
+# Install relevant dependencies
+rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r -y --skip-keys "$skip_depend"
+
 colcon build --symlink-install 
 
 echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
