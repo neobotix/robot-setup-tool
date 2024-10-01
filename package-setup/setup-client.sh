@@ -33,19 +33,20 @@ while [[ "$robot_model" != "mp_400" &&
         "$robot_model" != "rox" ]]; do
 	echo -e "${GREEN} Choose your robot (mp_400/mp_500/mpo_500/mpo_700/rox)"
 
-    read robot_model
+	read robot_model
 
-    echo -e "${WHITE}"
+	echo -e "${WHITE}"
 
-    if [ "$robot_model" == "rox" ]; then
+	if [ "$robot_model" == "rox" ]; then
 		git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git || { true; echo -e ${YELLOW} "Continuing with the installation"; }
 	elif [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" || "$robot_model" == "mpo_500" || "$robot_model" == "mpo_700" ]]; then
-        git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_$robot_model-2.git || { true; echo -e ${YELLOW} "Continuing with the installation"; }
-    else
-        echo -e "${RED} Please select a valid option"
-    fi
+		git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_$robot_model-2.git || { true; echo -e ${YELLOW} "Continuing with the installation"; }
+	else
+		echo -e "${RED} Please select a valid option"
+	fi
 done
 
+echo "Performing rosdep initialization and update"
 sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
 rosdep update
 
