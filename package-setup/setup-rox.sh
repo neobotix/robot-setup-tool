@@ -90,7 +90,8 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 
 done
 
-#rosdep update might need rosdep init -- ToDo: See if it could be checked
+echo "Performing rosdep initialization and update"
+sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
 rosdep update
 
 # Install build tool
