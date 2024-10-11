@@ -49,6 +49,8 @@ if [ "$ROS_DISTRO" == "" ]; then
     else
         echo -e "${RED} Please source any one of the ROS Distros above and try again later"
         echo -e "${RED} Example: source /opt/ros/YOUR_DISTRO/setup.bash"
+        echo "Abort"
+        exit 0
     fi
 fi
 
