@@ -121,10 +121,6 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
 
-if [ "$ROS_DISTRO" == "iron" ]; then
-	git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
-fi
-
 if [ "$kinematics" == "argo" ]; then
 	git clone --branch main https://github.com/neobotix/rox_argo_kinematics.git
 elif [ "$kinematics" == "diff" ]; then

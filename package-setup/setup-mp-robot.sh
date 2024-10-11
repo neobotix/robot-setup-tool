@@ -120,10 +120,6 @@ git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
 git clone https://github.com/neobotix/joystick_drivers.git
 
-if [ "$ROS_DISTRO" == "iron" ]; then
-	git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
-fi
-
 if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
 	git clone --branch main https://github.com/neobotix/neo_kinematics_differential2.git
 elif [ "$robot_model" == "mpo_500" ]; then

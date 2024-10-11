@@ -39,7 +39,6 @@ cd mp_500_workspace/src
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_mp_500-2.git
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
