@@ -18,32 +18,47 @@ then
 	exit 0
 fi
 
-echo "Welcome to the setup of your ROX robot, please select the dependencies that are required for your robot"
+echo "Welcome to the setup of your MP robot, please select the dependencies that are required for your robot"
 
 uni_ans=""
 phi_ans=""
 realsense_ans=""
-skip_depend="ros_gz "
+skip_depend=""
 arm_type=" "
 use_imu="False"
 use_d435="False"
 
-while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
-	echo "Universal robots ? (y/n)"
-	read uni_ans
-	if [ "$uni_ans" == "n" ]; then
-		skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
-	elif [ "$uni_ans" == "y" ]; then
-		echo "Universal robots dependencies will be installed and added to autstart"
+while [[ "$robot_model" != "mp_400" && "$robot_model" != "mp_500" && "$robot_model" != "mpo_500" && "$robot_model" != "mpo_700" ]]; do
+	echo "Choose your robot (mp_400/mp_500/mpo_500/mpo_700)"
+	read robot_model
+	if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
+		echo "neo_kinematics_differential2 package will be cloned"
+	elif [ "$robot_model" == "mpo_500" ]; then
+		echo "neo_kinematics_mecanum2 package will be cloned"
+	elif [ "$robot_model" == "mpo_700" ]; then
+		echo "neo_kinematics_omnidrive2 package will be cloned"
+	else
+		echo "Wrong option - Please try again"
+	fi
+done
+
+if [[ "$robot_model" == "mpo_500" || "$robot_model" == "mpo_700" ]]; then
+	while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
+		echo "Universal robots ? (y/n)"
+		read uni_ans
+		if [ "$uni_ans" == "n" ]; then
+			skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
+		elif [ "$uni_ans" == "y" ]; then
+			echo "Universal robots dependencies will be installed and added to autstart"
 			while [[ "$arm_type" != "ur10" && "$arm_type" != "ur10e" && "$arm_type" != "ur5" && "$arm_type" != "ur5e" ]]; do
 				echo "arm_type? (ur10/ur10e/ur5/ur5e)"
 				read arm_type
 			done
-	else
-		echo "Wrong option - Please try again"
-	fi
-
-done
+		else
+			echo "Wrong option - Please try again"
+		fi
+	done
+fi
 
 while [[ "$phi_ans" != "y" && "$phi_ans" != "n" ]]; do
 	echo "Phidget IMU ? (y/n)"
@@ -57,7 +72,6 @@ while [[ "$phi_ans" != "y" && "$phi_ans" != "n" ]]; do
 	else
 		echo "Wrong option - Please try again"
 	fi
-
 done
 
 while [[ "$realsense_ans" != "y" && "$realsense_ans" != "n" ]]; do
@@ -72,22 +86,6 @@ while [[ "$realsense_ans" != "y" && "$realsense_ans" != "n" ]]; do
 	else
 		echo "Wrong option - Please try again"
 	fi
-done
-
-while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
-
-	echo "Choose your kinematics (argo/diff)"
-
-	read kinematics
-
-	if [ "$kinematics" == "argo" ]; then
-		echo "rox_argo_kinematics package will be cloned"
-	elif [ "$kinematics" == "diff" ]; then
-		echo "neo_kinematics_differential2 package will be cloned"
-	else
-		echo "Wrong option - Please try again"
-	fi
-
 done
 
 echo "Performing rosdep initialization and update"
@@ -105,46 +103,42 @@ sudo apt install ros-$ROS_DISTRO-cyclonedds
 #Install xterm - useful when 
 sudo apt install xterm
 
-# Go to home directory
 cd ~
 
 mkdir -p ros2_workspace/src
 cd ros2_workspace/src
 
 # clone git repos here...
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_$robot_model-2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
-git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_relayboard_v2-2
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_sick_s300-2
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
+git clone https://github.com/neobotix/joystick_drivers.git
 
-if [ "$kinematics" == "argo" ]; then
-	git clone --branch main https://github.com/neobotix/rox_argo_kinematics.git
-elif [ "$kinematics" == "diff" ]; then
-	git clone --branch main https://github.com/neobotix/rox_diff_kinematics.git
+if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
+	git clone --branch main https://github.com/neobotix/neo_kinematics_differential2.git
+elif [ "$robot_model" == "mpo_500" ]; then
+	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_mecanum2.git
+elif [ "$robot_model" == "mpo_700" ]; then
+	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_omnidrive2.git
 fi
 
 if [ "$uni_ans" == "y" ]; then
-	git clone --branch main https://github.com/neobotix/neo_rox_moveit2.git
+	git clone --branch main https://github.com/neobotix/neo_mpo_moveit2.git
 fi
 
-cd neo_relayboard_v3
-#submodule init
-git submodule update --init
-
-# install vnx base
-sudo dpkg -i vnx-base/x86_64/vnx-base-1.9.6-x86_64-ubuntu-22.04.deb
-
-cd ~/ros2_workspace
+# build workspace
+cd ..
 
 echo "Installing dependencies, skipping the following" $skip_depend
 # Install relevant dependencies
 rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r -y --skip-keys "$skip_depend"
 
-# build workspace
 colcon build --symlink-install 
 
 echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
@@ -159,7 +153,7 @@ echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics "arm_type:="$arm_type" use_imu:="$use_imu" use_d435:="$use_d435 >> ROS_AUTOSTART.sh
+echo "ros2 launch neo_"$robot_model"-2 bringup.launch.py arm_type:="$arm_type" use_imu:="$use_imu" use_d435:="$use_d435>> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
