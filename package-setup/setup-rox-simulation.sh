@@ -63,7 +63,12 @@ cd ~
 skip_depend="phidgets-drivers ur_client_library ur_msgs ur_robot_driver"
 
 # Install build tool
+echo "Installing colcon extensions"
 sudo apt install python3-colcon-common-extensions
+
+# Installing CycloneDDS
+echo "Installing CycloneDDS"
+sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
 
 #Install xterm
 
