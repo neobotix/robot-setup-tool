@@ -22,17 +22,23 @@ echo "Welcome to the setup of your ROX robot, please select the dependencies tha
 
 uni_ans=""
 phi_ans=""
+realsense_ans=""
 skip_depend="ros_gz "
+arm_type=" "
+use_imu="False"
+use_d435="False"
 
 while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
 	echo "Universal robots ? (y/n)"
-
 	read uni_ans
-
 	if [ "$uni_ans" == "n" ]; then
 		skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
 	elif [ "$uni_ans" == "y" ]; then
-		echo "Universal robots dependencies will be installed"
+		echo "Universal robots dependencies will be installed and added to autstart"
+			while [[ "$arm_type" != "ur10" && "$arm_type" != "ur10e" && "$arm_type" != "ur5" && "$arm_type" != "ur5e" ]]; do
+				echo "arm_type? (ur10/ur10e/ur5/ur5e)"
+				read arm_type
+			done
 	else
 		echo "Wrong option - Please try again"
 	fi
@@ -41,17 +47,31 @@ done
 
 while [[ "$phi_ans" != "y" && "$phi_ans" != "n" ]]; do
 	echo "Phidget IMU ? (y/n)"
-
 	read phi_ans
-
 	if [ "$phi_ans" == "n" ]; then
 		skip_depend+="phidgets-drivers"
+		use_imu="False"
 	elif [ "$phi_ans" == "y" ]; then
-		echo "Phidget IMU dependencies will be installed"
+		echo "Phidget IMU dependencies will be installed and added to autstart"
+		use_imu="True"
 	else
 		echo "Wrong option - Please try again"
 	fi
 
+done
+
+while [[ "$realsense_ans" != "y" && "$realsense_ans" != "n" ]]; do
+	echo "Realsense Camera (URDF only supports D435i) ? (y/n)"
+	read realsense_ans
+	if [ "$realsense_ans" == "n" ]; then
+		skip_depend+="realsense2_camera realsense2_camera_msgs realsense2_description"
+		use_d435="False"
+	elif [ "$realsense_ans" == "y" ]; then
+		echo "Realsense camera dependencies will be installed and added to autstart"
+		use_d435="True"
+	else
+		echo "Wrong option - Please try again"
+	fi
 done
 
 while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
@@ -70,14 +90,19 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 
 done
 
-#rosdep update might need rosdep init -- ToDo: See if it could be checked
+echo "Performing rosdep initialization and update"
+sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
 rosdep update
 
 # Install build tool
+echo "Installing colcon extensions"
 sudo apt install python3-colcon-common-extensions
 
-#Install xterm
+# Installing CycloneDDS
+echo "Installing CycloneDDS"
+sudo apt install ros-$ROS_DISTRO-cyclonedds
 
+#Install xterm - useful when 
 sudo apt install xterm
 
 # Go to home directory
@@ -88,7 +113,6 @@ cd ros2_workspace/src
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
@@ -103,6 +127,9 @@ elif [ "$kinematics" == "diff" ]; then
 	git clone --branch main https://github.com/neobotix/rox_diff_kinematics.git
 fi
 
+if [ "$uni_ans" == "y" ]; then
+	git clone --branch main https://github.com/neobotix/neo_rox_moveit2.git
+fi
 
 cd neo_relayboard_v3
 #submodule init
@@ -124,13 +151,15 @@ echo "export LC_NUMERIC="en_US.UTF-8" " >> ~/.bashrc
 
 echo "source ~/ros2_workspace/install/setup.bash" >> ~/.bashrc
 
+echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
+
 echo "Setting up startup scripts"
 
 echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics >> ROS_AUTOSTART.sh
+echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics "arm_type:="$arm_type" use_imu:="$use_imu" use_d435:="$use_d435 >> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
