@@ -9,14 +9,16 @@ if [ $SUDO_USER ]; then user=$SUDO_USER; else user=`whoami`; fi
 usermod -aG dialout $user
 
 # Enable autologin
-if [ -e /etc/lightdm/lightdm.conf ]
-then
-  mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf.`date +"%Y-%m-%d_%T"`
+if [ -d /etc/lightdm/ ]; then
+    if [ -e /etc/lightdm/lightdm.conf ]; then
+	mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf.`date +"%Y-%m-%d_%T"`
+    fi
+
+    echo '[Seat:*]' > /etc/lightdm/lightdm.conf
+    echo 'autologin-session=xubuntu' >> /etc/lightdm/lightdm.conf
+    echo 'autologin-user='$user >> /etc/lightdm/lightdm.conf
+    echo 'autologin-user-timeout=0' >> /etc/lightdm/lightdm.conf
 fi
-echo '[Seat:*]' > /etc/lightdm/lightdm.conf
-echo 'autologin-session=xubuntu' >> /etc/lightdm/lightdm.conf
-echo 'autologin-user='$user >> /etc/lightdm/lightdm.conf
-echo 'autologin-user-timeout=0' >> /etc/lightdm/lightdm.conf
 
 # Halt without pwd
 echo "$user ALL=NOPASSWD: /sbin/halt,/sbin/reboot,/sbin/poweroff,/sbin/shutdown" > /etc/sudoers.d/neobotix
@@ -76,9 +78,9 @@ chown -R $user:$user /home/$user/.config/autostart
 if [ -d /var/lib/update-notifier/user.d/ ]; then
    rm -rf /var/lib/update-notifier/user.d/neobotix-tools
    cat << EOF >> /var/lib/update-notifier/user.d/neobotix-tools
-Name: neobotix-tools Post Install Notification 
+Name: neobotix-tools Post Install Notification
 Priority: High
-Description: Reboot is required to complete the installation. 
+Description: Reboot is required to complete the installation.
 EOF
    touch /var/lib/update-notifier/dpkg-run-stamp
 fi
