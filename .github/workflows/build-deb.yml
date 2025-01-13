@@ -29,7 +29,7 @@ jobs:
         run: cd debian && ./make_deb.sh
           
       - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: neobotix-tools.deb
           path: debian/neobotix-tools.deb
