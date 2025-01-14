@@ -64,7 +64,7 @@ while [[ "$phi_ans" != "y" && "$phi_ans" != "n" ]]; do
 	echo "Phidget IMU ? (y/n)"
 	read phi_ans
 	if [ "$phi_ans" == "n" ]; then
-		skip_depend+="phidgets-drivers"
+		skip_depend+="phidgets_drivers "
 		use_imu="False"
 	elif [ "$phi_ans" == "y" ]; then
 		echo "Phidget IMU dependencies will be installed and added to autstart"
@@ -105,9 +105,25 @@ sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
 sudo apt install xterm
 
 cd ~
+delete_ws="n"
 
-mkdir -p ros2_workspace/src
-cd ros2_workspace/src
+if [ -d "ros2_workspace" ]; then
+	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (Y/n)"
+	read delete_ws
+	if [ "$delete_ws" == "y" ]; then
+		echo "Deleting workspace"
+		rm -rf ros2_workspace
+		mkdir -p ros2_workspace/src
+		cd ros2_workspace/src
+	else
+		echo "Exiting the setup"
+		exit 0
+	fi
+else
+    echo "Folder does not exist."
+	mkdir -p ros2_workspace/src
+	cd ros2_workspace/src
+fi
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_$robot_model-2.git
