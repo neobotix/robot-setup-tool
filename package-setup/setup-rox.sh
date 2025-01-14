@@ -90,6 +90,10 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 
 done
 
+# Installing rosdep
+sudo apt install ros-$ROS_DISTRO-python3-rosdep
+
+# ROSDep initialization and update
 echo "Performing rosdep initialization and update"
 sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
 rosdep update
