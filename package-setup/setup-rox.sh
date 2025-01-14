@@ -101,6 +101,7 @@ sudo apt install python3-colcon-common-extensions
 # Installing CycloneDDS
 echo "Installing CycloneDDS"
 sudo apt install ros-$ROS_DISTRO-cyclonedds
+sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
 
 #Install xterm - useful when 
 sudo apt install xterm
