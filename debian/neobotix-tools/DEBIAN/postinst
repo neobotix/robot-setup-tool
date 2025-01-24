@@ -29,7 +29,7 @@ sed -i 's/APT::Periodic::Update-Package-Lists "1"/APT::Periodic::Update-Package-
 
 # Setup cron job for configuring can interface
 if ! crontab -l | grep -q '/opt/neobotix/tools/enable_can0.sh'; then crontab -l 2>/dev/null | { cat; echo "@reboot /opt/neobotix/tools/enable_can0.sh"; } | crontab -; fi
-if ! crontab -l | grep -q '/opt/neobotix/tools/enable_multicast_lo.sh'; then (crontab -l 2>/dev/null | { cat; echo "@reboot /opt/neobotix/tools/enable_multicast_lo.sh"; } | crontab -; fi
+if ! crontab -l | grep -q '/opt/neobotix/tools/enable_multicast_lo.sh'; then crontab -l 2>/dev/null | { cat; echo "@reboot /opt/neobotix/tools/enable_multicast_lo.sh"; } | crontab -; fi
 
 # Setup udev rules for serial converter
 echo 'SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ENV{ID_VENDOR}=="FTDI", ENV{ID_MODEL_ID}=="6010", ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="neo-relayboard"' > /etc/udev/rules.d/99-usb-serial.rules
