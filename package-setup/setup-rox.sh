@@ -49,7 +49,7 @@ while [[ "$phi_ans" != "y" && "$phi_ans" != "n" ]]; do
 	echo "Phidget IMU ? (y/n)"
 	read phi_ans
 	if [ "$phi_ans" == "n" ]; then
-		skip_depend+="phidgets-drivers"
+		skip_depend+="phidgets_drivers "
 		use_imu="False"
 	elif [ "$phi_ans" == "y" ]; then
 		echo "Phidget IMU dependencies will be installed and added to autstart"
@@ -90,6 +90,7 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 
 done
 
+# ROSDep initialization and update
 echo "Performing rosdep initialization and update"
 sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
 rosdep update
@@ -101,7 +102,6 @@ sudo apt install python3-colcon-common-extensions
 # Installing CycloneDDS
 echo "Installing CycloneDDS"
 sudo apt install ros-$ROS_DISTRO-cyclonedds
-
 sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
 
 #Install xterm - useful when 
@@ -110,14 +110,29 @@ sudo apt install xterm
 # Go to home directory
 cd ~
 
-mkdir -p ros2_workspace/src
-cd ros2_workspace/src
+delete_ws="n"
+if [ -d "ros2_workspace" ]; then
+	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (Y/n)"
+	read delete_ws
+	if [ "$delete_ws" == "y" ]; then
+		echo "Deleting workspace"
+		rm -rf ros2_workspace
+		mkdir -p ros2_workspace/src
+		cd ros2_workspace/src
+	else
+		echo "Exiting the setup"
+		exit 0
+	fi
+else
+    echo "Folder does not exist."
+	mkdir -p ros2_workspace/src
+	cd ros2_workspace/src
+fi
 
 # clone git repos here...
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup.git
 git clone --branch master          https://github.com/neobotix/neo_common2
 git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
