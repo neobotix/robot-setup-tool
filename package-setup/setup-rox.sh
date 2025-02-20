@@ -23,7 +23,7 @@ echo "Welcome to the setup of your ROX robot, please select the dependencies tha
 uni_ans=""
 phi_ans=""
 realsense_ans=""
-skip_depend="ros_gz ros_gz_sim ros_gz_bridge gz_ros2_control "
+skip_depend="ros_gz ros_gz_sim ros_gz_bridge gz_ros2_control ur_simulation_gz "
 arm_type=" "
 use_imu="False"
 use_d435="False"
