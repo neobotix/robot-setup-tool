@@ -86,6 +86,7 @@ cd "$directory"
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_rox_moveit2.git
 git clone --branch master          https://github.com/neobotix/neo_common2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
