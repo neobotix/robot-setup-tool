@@ -60,7 +60,7 @@ robot_model=""
 # Go to home directory
 cd ~
 
-skip_depend="phidgets-drivers ur_client_library ur_msgs ur_robot_driver"
+skip_depend="phidgets_drivers ur_client_library ur_msgs ur_robot_driver"
 
 # Install build tool
 echo "Installing colcon extensions"
