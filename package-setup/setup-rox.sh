@@ -120,7 +120,7 @@ cd ~
 
 delete_ws="n"
 if [ -d "ros2_workspace" ]; then
-	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (Y/n)"
+	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (y/n)"
 	read delete_ws
 	if [ "$delete_ws" == "y" ]; then
 		echo "Deleting workspace"
@@ -154,7 +154,7 @@ elif [ "$kinematics" == "diff" ]; then
 fi
 
 if [ "$uni_ans" == "y" ]; then
-	git clone --branch main https://github.com/neobotix/neo_rox_moveit2.git
+	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_rox_moveit2.git
 fi
 
 cd neo_relayboard_v3
