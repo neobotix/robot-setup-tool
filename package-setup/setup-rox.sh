@@ -27,6 +27,7 @@ skip_depend="ros_gz "
 arm_type=" "
 use_imu="False"
 use_d435="False"
+arm_string=""
 
 while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
 	echo "Universal robots ? (y/n)"
@@ -89,6 +90,10 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 	fi
 
 done
+
+if [ "$arm_type" != " " ]; then
+	arm_string="arm_type:=$arm_type"
+fi
 
 # Installing rosdep
 sudo apt install ros-$ROS_DISTRO-python3-rosdep
@@ -180,7 +185,7 @@ echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics "arm_type:="$arm_type" use_imu:="$use_imu" use_d435:="$use_d435 >> ROS_AUTOSTART.sh
+echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics $arm_string "use_imu:="$use_imu" use_d435:="$use_d435 >> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
