@@ -27,6 +27,7 @@ skip_depend=""
 arm_type=" "
 use_imu="False"
 use_d435="False"
+arm_string=""
 
 while [[ "$robot_model" != "mp_400" && "$robot_model" != "mp_500" && "$robot_model" != "mpo_500" && "$robot_model" != "mpo_700" ]]; do
 	echo "Choose your robot (mp_400/mp_500/mpo_500/mpo_700)"
@@ -88,6 +89,10 @@ while [[ "$realsense_ans" != "y" && "$realsense_ans" != "n" ]]; do
 	fi
 done
 
+if [ "$arm_type" != " " ]; then
+	arm_string="arm_type:=$arm_type"
+fi
+
 # ROSDep initialization and update
 echo "Performing rosdep initialization and update"
 sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
@@ -109,7 +114,7 @@ cd ~
 delete_ws="n"
 
 if [ -d "ros2_workspace" ]; then
-	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (Y/n)"
+	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (y/n)"
 	read delete_ws
 	if [ "$delete_ws" == "y" ]; then
 		echo "Deleting workspace"
@@ -136,7 +141,7 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_sick_s300-2
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/mp_utils
+git clone https://github.com/neobotix/mp_utils
 git clone https://github.com/neobotix/joystick_drivers.git
 
 if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
@@ -172,7 +177,7 @@ echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch neo_"$robot_model"-2 bringup.launch.py arm_type:="$arm_type" use_imu:="$use_imu" use_d435:="$use_d435>> ROS_AUTOSTART.sh
+echo "ros2 launch neo_"$robot_model"-2 bringup.launch.py "$arm_string" use_imu:="$use_imu" use_d435:="$use_d435>> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
