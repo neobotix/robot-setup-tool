@@ -143,6 +143,7 @@ git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
+git clone --branch ros2            https://github.com/neobotix/joystick_drivers
 
 if [ "$kinematics" == "argo" ]; then
 	git clone --branch main https://github.com/neobotix/rox_argo_kinematics.git
