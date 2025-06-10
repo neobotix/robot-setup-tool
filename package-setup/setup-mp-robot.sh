@@ -145,7 +145,7 @@ git clone https://github.com/neobotix/mp_utils
 git clone https://github.com/neobotix/joystick_drivers.git
 
 if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
-	git clone --branch main https://github.com/neobotix/neo_kinematics_differential2.git
+	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_differential2.git
 elif [ "$robot_model" == "mpo_500" ]; then
 	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_mecanum2.git
 elif [ "$robot_model" == "mpo_700" ]; then
@@ -153,7 +153,7 @@ elif [ "$robot_model" == "mpo_700" ]; then
 fi
 
 if [ "$uni_ans" == "y" ]; then
-	git clone --branch main https://github.com/neobotix/neo_mpo_moveit2.git
+	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_mpo_moveit2.git
 fi
 
 # build workspace
