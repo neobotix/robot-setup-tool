@@ -95,6 +95,8 @@ if [ "$arm_type" != " " ]; then
 	arm_string="arm_type:=$arm_type"
 fi
 
+sudo apt update && sudo apt install ros-dev-tools
+
 # ROSDep initialization and update
 echo "Performing rosdep initialization and update"
 sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
