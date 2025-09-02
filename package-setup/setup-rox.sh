@@ -91,7 +91,11 @@ while [[ "$kinematics" != "argo" && "$kinematics" != "diff" ]]; do
 
 done
 
-sudo apt update && sudo apt install ros-dev-tools
+#installing ROS dev tools
+sudo apt update && sudo apt install ros-dev-tools -y
+
+# Installing ROSDep
+sudo apt install python3-rosdep -y
 
 if [ "$arm_type" != " " ]; then
 	arm_string="arm_type:=$arm_type"

@@ -96,17 +96,28 @@ done
 
 skip_depend="phidgets_drivers ur_client_library ur_msgs neo_relayboard_v3"
 
+# Installing ROSDep
+sudo apt install python3-rosdep -y\
+
+#installing rosdev tools
+sudo apt update && sudo apt install ros-dev-tools -y
+
+# ROSDep initialization and update
+echo "Performing rosdep initialization and update"
+sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
+rosdep update
+
 # Install build tool
 echo "Installing colcon extensions..."
-sudo apt install python3-colcon-common-extensions
+sudo apt install python3-colcon-common-extensions -y
 
 # Installing CycloneDDS
 echo "Installing CycloneDDS..."
-sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
+sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp -y
 
-#Install xterm
+#Install xterm, useful when debugging
 
-sudo apt install xterm
+sudo apt install xterm -y
 
 mkdir -p "$directory"
 cd "$directory"
