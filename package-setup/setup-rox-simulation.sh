@@ -83,7 +83,7 @@ if [ -d "${directory_root}" ]; then
     fi
 fi
 
-skip_depend="phidgets_drivers ur_client_library ur_msgs neo_relayboard_v3"
+skip_depend="phidgets_drivers ur_client_library ur_msgs neo_relayboard_v3 sick_safetyscanners_base sick_safetyscanners2_interfaces sick_safetyscanners2 "
 
 # Installing ROSDep
 sudo apt install python3-rosdep -y
@@ -117,7 +117,7 @@ cd ..
 
 echo -e "${YELLOW}Skipping to install following dependencies:${NC}" $skip_depend
 # Install relevant dependencies
-rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r --skip-keys "$skip_depend"
+rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r -y --skip-keys "$skip_depend"
 
 # build workspace
 echo "Building the workspace..."

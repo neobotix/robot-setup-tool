@@ -9,7 +9,7 @@ WHITE='\033[0;37m'
 NC='\033[0m'
 
 echo -e "${GREEN}==========================================================================="
-echo -e "Welcome to the support assistant for setting up the ROX Simulation packages"
+echo -e "Welcome to the support assistant for setting up the MP robot Simulation packages"
 echo -e "===========================================================================${NC}"
 
 # Check if ROS is sourced
@@ -138,7 +138,7 @@ cd ..
 
 echo -e "${YELLOW}Skipping to install following dependencies:${NC}" $skip_depend
 # Install relevant dependencies
-rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r --skip-keys "$skip_depend"
+rosdep install --from-paths ./src --ignore-src --rosdistro $ROS_DISTRO -r -y --skip-keys "$skip_depend"
 
 # build workspace
 echo "Building the workspace..."
