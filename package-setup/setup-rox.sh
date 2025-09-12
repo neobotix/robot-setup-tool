@@ -33,7 +33,7 @@ while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
 	echo "Universal robots ? (y/n)"
 	read uni_ans
 	if [ "$uni_ans" == "n" ]; then
-		skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver "
+		skip_depend+="ur_client_library ur_msgs ur_description ur_robot_driver robotiq_description "
 	elif [ "$uni_ans" == "y" ]; then
 		echo "Universal robots dependencies will be installed and added to autstart"
 			while [[ "$arm_type" != "ur10" && "$arm_type" != "ur10e" && "$arm_type" != "ur5" && "$arm_type" != "ur5e" ]]; do
