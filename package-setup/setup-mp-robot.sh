@@ -136,7 +136,6 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_sick_s300-2
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
-git clone --branch $ROS_DISTRO     https://github.com/neobotix/mp_utils
 git clone https://github.com/neobotix/joystick_drivers.git
 
 if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
