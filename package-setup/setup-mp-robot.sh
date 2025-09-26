@@ -111,7 +111,7 @@ delete_ws="n"
 if [ -d "ros2_workspace" ]; then
 	echo "Folder exists. Do you want to delete the ros2 workspace and reinstall it fresh? (Y/n)"
 	read delete_ws
-	if [ "$delete_ws" == "y" ]; then
+	if [ "$delete_ws" == "Y" ]; then
 		echo "Deleting workspace"
 		rm -rf ros2_workspace
 		mkdir -p ros2_workspace/src
