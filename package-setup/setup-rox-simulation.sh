@@ -45,8 +45,17 @@ if [ -z "$workspace_base" ]; then
     echo -e "${RED}Abort"
     exit 0
 fi
-# Create workspace path using this base
-directory_root="${workspace_base}/${ROS_DISTRO}_ws"
+
+# user input for workspace prefix (first argument)
+prefix=$1
+
+# Default prefix if none provided
+if [ -z "$prefix" ]; then
+    prefix="rox"
+fi
+
+# Create workspace path
+directory_root="${workspace_base}/${prefix}_${ROS_DISTRO}_ws"
 directory="${directory_root}/src"
 
 if [ -d "${directory_root}" ]; then
@@ -143,5 +152,5 @@ echo "source $directory_root/install/setup.bash" >> ~/.bashrc
 echo -e "${YELLOW}Note:${NC} If you have multiple ROS workspaces, auto-sourcing might cause conflicts."
 
 echo -e "${GREEN}Installation successful !!!${NC}"
-echo -e "Workspace '${GREEN}${ROS_DISTRO}_ws${NC}' installed at ${GREEN}${workspace_base}${NC}"
+echo -e "Workspace '${GREEN}${prefix}_${ROS_DISTRO}_ws${NC}' installed at ${GREEN}${workspace_base}${NC}"
 exit 0
