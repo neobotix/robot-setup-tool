@@ -107,6 +107,11 @@ done
 
 skip_depend="phidgets_drivers ur_client_library ur_msgs neo_relayboard_v3"
 
+# Add extra skip dependency for mp_400 and mp_500
+if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
+    skip_depend="$skip_depend robotiq_description"
+fi
+
 # Installing ROSDep
 sudo apt install python3-rosdep -y\
 
