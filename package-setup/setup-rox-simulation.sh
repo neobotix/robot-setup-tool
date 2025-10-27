@@ -45,8 +45,19 @@ if [ -z "$workspace_base" ]; then
     echo -e "${RED}Abort"
     exit 0
 fi
-# Create workspace path using this base
-directory_root="${workspace_base}/${ROS_DISTRO}_ws"
+
+# User input for workspace prefix
+read -p "Enter workspace prefix (leave empty for none): " prefix
+
+# Create workspace name
+if [ -z "$prefix" ]; then
+    workspace_name="${ROS_DISTRO}_ws"
+else
+    workspace_name="${prefix}_${ROS_DISTRO}_ws"
+fi
+
+# Create workspace path
+directory_root="${workspace_base}/${workspace_name}"
 directory="${directory_root}/src"
 
 if [ -d "${directory_root}" ]; then
@@ -87,6 +98,14 @@ skip_depend="phidgets_drivers ur_client_library ur_msgs neo_relayboard_v3 sick_s
 
 # Installing ROSDep
 sudo apt install python3-rosdep -y
+
+#installing rosdev tools
+sudo apt update && sudo apt install ros-dev-tools -y
+
+# ROSDep initialization and update
+echo "Performing rosdep initialization and update"
+sudo rosdep init || { true; echo -e "${YELLOW} rosdep init is not required"; }
+rosdep update
 
 # Install build tool
 echo "Installing colcon extensions..."
@@ -135,5 +154,5 @@ echo "source $directory_root/install/setup.bash" >> ~/.bashrc
 echo -e "${YELLOW}Note:${NC} If you have multiple ROS workspaces, auto-sourcing might cause conflicts."
 
 echo -e "${GREEN}Installation successful !!!${NC}"
-echo -e "Workspace '${GREEN}${ROS_DISTRO}_ws${NC}' installed at ${GREEN}${workspace_base}${NC}"
+echo -e "Workspace '${GREEN}${workspace_name}${NC}' installed at ${GREEN}${workspace_base}${NC}"
 exit 0
