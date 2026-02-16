@@ -27,8 +27,10 @@ visudo -c -f /etc/sudoers.d/neobotix
 # Disable auto upgrades
 sed -i 's/APT::Periodic::Update-Package-Lists "1"/APT::Periodic::Update-Package-Lists "0"/' /etc/apt/apt.conf.d/20auto-upgrades
 
-# Setup cron job for configuring can interface
-if ! crontab -l | grep -q '/opt/neobotix/tools/enable_can0.sh'; then crontab -l 2>/dev/null | { cat; echo "@reboot /opt/neobotix/tools/enable_can0.sh"; } | crontab -; fi
+# Enable networkd for configuring can interface
+systemctl enable systemd-networkd
+systemctl start systemd-networkd
+
 if ! crontab -l | grep -q '/opt/neobotix/tools/enable_multicast_lo.sh'; then crontab -l 2>/dev/null | { cat; echo "@reboot /opt/neobotix/tools/enable_multicast_lo.sh"; } | crontab -; fi
 
 # Setup udev rules for serial converter
