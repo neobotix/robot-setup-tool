@@ -1,5 +1,0 @@
-[Match]
-Name=can0
- 
-[Link]
-TXQueueLength=100
