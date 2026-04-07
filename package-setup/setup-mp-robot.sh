@@ -23,7 +23,7 @@ echo "Welcome to the setup of your MP robot, please select the dependencies that
 uni_ans=""
 phi_ans=""
 realsense_ans=""
-skip_depend=""
+skip_depend="ur_simulation_gz robotiq_description neo_gz_worlds teleop_twist_keyboard ros_gz ros_gz_sim ros_gz_bridge gz_ros2_control "
 arm_type=" "
 use_imu="False"
 use_d435="False"
