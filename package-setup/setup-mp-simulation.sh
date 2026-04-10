@@ -145,7 +145,7 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/mp_utils.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_mpo_moveit2.git
-git clone --branch master          https://github.com/neobotix/neo_common2
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_common2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
 git clone --branch main            https://github.com/neobotix/neo_gz_worlds.git
