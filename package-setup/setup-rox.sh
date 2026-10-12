@@ -27,6 +27,7 @@ skip_depend="ros_gz ros_gz_sim ros_gz_bridge gz_ros2_control ur_simulation_gz "
 arm_type=" "
 use_imu="False"
 use_d435="False"
+scanner_enable="True"
 arm_string=""
 
 while [[ "$uni_ans" != "y" && "$uni_ans" != "n" ]]; do
@@ -149,6 +150,7 @@ git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
+git clone --branch master          https://github.com/neobotix/neo_actions2
 git clone --branch ros2            https://github.com/neobotix/joystick_drivers
 
 if [ "$kinematics" == "argo" ]; then
@@ -189,7 +191,7 @@ echo "source ~/ros2_workspace/install/setup.bash" >> ROS_AUTOSTART.sh
 
 echo "sleep 2" >> ROS_AUTOSTART.sh
 
-echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics $arm_string " use_imu:="$use_imu" use_d435:="$use_d435 >> ROS_AUTOSTART.sh
+echo "ros2 launch rox_bringup bringup_launch.py rox_type:="$kinematics $arm_string " use_imu:="$use_imu" use_d435:="$use_d435" scanner_enable:="$scanner_enable >> ROS_AUTOSTART.sh
 
 chmod +x ROS_AUTOSTART.sh
 
