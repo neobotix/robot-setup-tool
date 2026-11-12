@@ -113,8 +113,8 @@ sudo apt install python3-colcon-common-extensions
 
 # Installing CycloneDDS
 echo "Installing CycloneDDS"
-sudo apt install ros-$ROS_DISTRO-cyclonedds
-sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
+sudo apt install ros-$ROS_DISTRO-cyclonedds -y
+sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp -y
 
 #Install xterm - useful when 
 sudo apt install xterm
@@ -146,11 +146,12 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/rox.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_local_planner2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_localization2.git
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_common2
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup
 git clone --branch master          https://github.com/neobotix/neo_relayboard_v3
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
-git clone --branch main          https://github.com/neobotix/neo_actions2
+git clone --branch main            https://github.com/neobotix/neo_actions2
 git clone --branch ros2            https://github.com/neobotix/joystick_drivers
 
 if [ "$kinematics" == "argo" ]; then
