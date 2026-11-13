@@ -144,10 +144,11 @@ git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_common2
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_relayboard_v2-2
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_sick_s300-2
 git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_teleop2
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/neo_nav2_bringup
 git clone --branch master          https://github.com/neobotix/neo_msgs2
 git clone --branch master          https://github.com/neobotix/neo_srvs2
-git clone https://github.com/neobotix/mp_utils
-git clone https://github.com/neobotix/joystick_drivers.git
+git clone --branch $ROS_DISTRO     https://github.com/neobotix/mp_utils.git
+git clone --branch ros2            https://github.com/neobotix/joystick_drivers
 
 if [[ "$robot_model" == "mp_400" || "$robot_model" == "mp_500" ]]; then
 	git clone --branch $ROS_DISTRO https://github.com/neobotix/neo_kinematics_differential2.git
